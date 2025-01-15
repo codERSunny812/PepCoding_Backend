@@ -4,6 +4,7 @@ const SECRET_KEY="this is the secret  key"
 
 const authMiddleWare =(req,res,next,err)=>{
     const token = req.headers.authorization?.split(" ")[1];
+    console.log(token)
 
     if (!token) {
         return res.status(401).json({ message: "Token is required" });

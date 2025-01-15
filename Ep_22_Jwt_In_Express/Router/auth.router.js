@@ -70,6 +70,8 @@ try {
     res.cookie("isLoggedIn",true,{
         httpOnly:true
     });
+    //saving the token in the cookie
+    res.cookie("bearer-token",token);
 
     // Compare the provided password with the stored password
     if (user.password !== password) {
@@ -86,6 +88,7 @@ try {
             name: user.name,
             email: user.email,
         },
+        token:token
     });
 
 } catch (error) {

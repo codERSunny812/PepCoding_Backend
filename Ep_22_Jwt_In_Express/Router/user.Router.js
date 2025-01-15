@@ -2,7 +2,7 @@ const express = require('express');
 const userRouter = express.Router();
 const userModel = require('../Model/user.modal');
 
-// Function to get users
+// Function to get data of all user
 let getUser = async (req, res) => {
   try {
     let users = await userModel.find();
@@ -25,7 +25,7 @@ let getUser = async (req, res) => {
   }
 };
 
-// Function to update a user
+// Function to update  the data of any specific user
 let updateUser = async (req, res) => {
   const { id } = req.params;
   const updateData = req.body;
@@ -57,7 +57,7 @@ let updateUser = async (req, res) => {
   }
 };
 
-// Function to delete a user
+// Function to delete any specific user
 let deleteUser = async (req, res) => {
   const { id } = req.body;
 
@@ -101,6 +101,7 @@ function isLoggedIn(req,res,next){
 // Define routes
 userRouter
   .route('/')
+  // we have proctected this route so that only loggedin user will get the data fo all user
   .get(isLoggedIn,getUser)
   .delete(deleteUser)
   .patch(updateUser);
