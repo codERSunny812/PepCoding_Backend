@@ -2,10 +2,12 @@ const express = require('express');
 const connectDb = require('./DB/Db');
 const app = express();
 const userModel = require('./models/userModel')
+const cookieParser = require('cookie-parser')
 
 connectDb();
 
 app.use(express.json()); //important
+app.use(cookieParser()) //to parse the cookie from the request
 
 app.get('/', (req, res) => {
     res.send('home route')
@@ -85,16 +87,6 @@ app.patch('/users/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-
-
-
-
-
-
-
-
-
 
 app.listen(3000, () => {
     console.log("server is  running")
