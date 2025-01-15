@@ -2,8 +2,11 @@ const express = require('express');
 const connectDb = require('./DB/Db');
 const app = express();
 const userModel = require('./models/userModel')
+const cookieParser = require('cookie-parser')
 
 connectDb();
+
+app.use(cookieParser());
 
 app.use(express.json()); //important
 
@@ -88,6 +91,37 @@ app.patch('/users/:id', async (req, res) => {
 
 
 
+// route to set up the cookies
+app.get('/set-cookie', (req, res) => {
+    // Set a cookie with key 'username' and value 'Sushil'
+    res.cookie('username', 'Sushil Pandey', {
+        maxAge: 24 * 60 * 60 * 1000, // Cookie expiration time: 1 day
+        httpOnly: true, // Cookie cannot be accessed by JavaScript (for security)
+        secure: false,  // Set true if using HTTPS
+        sameSite: 'Lax' // Protect against CSRF attacks
+    });
+    res.send('Cookie has been set!');
+
+})
+
+
+// Route to read a cookie
+app.get('/get-cookie', (req, res) => {
+    console.log(req.cookies);
+    const username = req.cookies.username; // Access the 'username' cookie
+    if (username) {
+        res.send(`Hello, ${username}! Your cookie was read.`);
+    } else {
+        res.send('No cookies found.');
+    }
+});
+
+
+// Route to delete a cookie
+app.get('/delete-cookie', (req, res) => {
+    res.clearCookie('username'); // Clear the 'username' cookie
+    res.send('Cookie has been deleted!');
+});
 
 
 
